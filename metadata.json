@@ -1,0 +1,9 @@
+{
+  "name": "Machadka Tahdiibul Adfaal MIS",
+  "description": "System-ka Maamulka Dugsiga Qur'aanka iyo Waxbarashada ee Machadka Tahdiibul Adfaal (Tahdiibul Adfaal MIS) - Ardayda, Macallimiinta, Waalidiinta, Fasallada, Xifdinta Qur'aanka, Xaadiriska, Lacagaha, Imtixaannada iyo Warbixinnada. Qof kasta oo Play Store ka raadiya Tahdiibul Adfaal, Machadka Tahdiibul Adfaal, ama MIS wuxuu toos u helayaa app-kan rasmiga ah.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,210 @@
+{
+  "entities": {
+    "settings": {
+      "title": "School Settings",
+      "description": "School configuration and details",
+      "properties": {
+        "schoolName": { "type": "string" },
+        "schoolSubtitle": { "type": "string" },
+        "logoUrl": { "type": "string" },
+        "principalName": { "type": "string" },
+        "phone": { "type": "string" },
+        "email": { "type": "string" },
+        "address": { "type": "string" },
+        "currency": { "type": "string" },
+        "academicYear": { "type": "string" }
+      }
+    },
+    "users": {
+      "title": "Users",
+      "description": "System accounts for admin, teacher, parent, finance, student",
+      "properties": {
+        "name": { "type": "string" },
+        "username": { "type": "string" },
+        "password": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string" },
+        "phone": { "type": "string" },
+        "status": { "type": "string" }
+      }
+    },
+    "students": {
+      "title": "Students",
+      "description": "Student records",
+      "properties": {
+        "studentId": { "type": "string" },
+        "fullName": { "type": "string" },
+        "gender": { "type": "string" },
+        "age": { "type": "number" },
+        "parentName": { "type": "string" },
+        "parentPhone": { "type": "string" },
+        "classId": { "type": "string" },
+        "className": { "type": "string" },
+        "shift": { "type": "string" },
+        "enrollmentDate": { "type": "string" },
+        "status": { "type": "string" },
+        "currentJuz": { "type": "number" },
+        "currentSurah": { "type": "string" },
+        "bookLevel": { "type": "string" },
+        "feeMonthly": { "type": "number" },
+        "feeStatus": { "type": "string" }
+      }
+    },
+    "teachers": {
+      "title": "Teachers",
+      "description": "Teacher records",
+      "properties": {
+        "teacherId": { "type": "string" },
+        "fullName": { "type": "string" },
+        "phone": { "type": "string" },
+        "email": { "type": "string" },
+        "subjectSpecialty": { "type": "string" },
+        "salary": { "type": "number" }
+      }
+    },
+    "parents": {
+      "title": "Parents",
+      "description": "Parent records",
+      "properties": {
+        "fullName": { "type": "string" },
+        "phone": { "type": "string" },
+        "address": { "type": "string" },
+        "childrenIds": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "classes": {
+      "title": "Classes",
+      "description": "Classroom records",
+      "properties": {
+        "name": { "type": "string" },
+        "teacherId": { "type": "string" },
+        "teacherName": { "type": "string" },
+        "shift": { "type": "string" },
+        "capacity": { "type": "number" },
+        "totalStudents": { "type": "number" },
+        "roomNumber": { "type": "string" }
+      }
+    },
+    "hifzRecords": {
+      "title": "Hifz Records",
+      "description": "Quran memorization records",
+      "properties": {
+        "studentId": { "type": "string" },
+        "studentName": { "type": "string" },
+        "date": { "type": "string" },
+        "subaxSurah": { "type": "string" },
+        "grade": { "type": "string" }
+      }
+    },
+    "attendanceRecords": {
+      "title": "Attendance Records",
+      "description": "Student attendance logs",
+      "properties": {
+        "studentId": { "type": "string" },
+        "classId": { "type": "string" },
+        "date": { "type": "string" },
+        "status": { "type": "string" }
+      }
+    },
+    "teacherAttendanceRecords": {
+      "title": "Teacher Attendance",
+      "description": "Teacher attendance logs",
+      "properties": {
+        "teacherId": { "type": "string" },
+        "date": { "type": "string" },
+        "status": { "type": "string" }
+      }
+    },
+    "paymentTransactions": {
+      "title": "Payment Transactions",
+      "description": "Fee payment transactions",
+      "properties": {
+        "invoiceNumber": { "type": "string" },
+        "studentId": { "type": "string" },
+        "amountPaid": { "type": "number" },
+        "paymentMethod": { "type": "string" },
+        "date": { "type": "string" }
+      }
+    },
+    "examRecords": {
+      "title": "Exam Records",
+      "description": "Exam results and scores",
+      "properties": {
+        "studentId": { "type": "string" },
+        "term": { "type": "string" },
+        "quranScore": { "type": "number" },
+        "averagePercentage": { "type": "number" }
+      }
+    },
+    "smsLogs": {
+      "title": "SMS Logs",
+      "description": "Logs of sent and simulated SMS messages",
+      "properties": {
+        "recipients": { "type": "string" },
+        "recipientName": { "type": "string" },
+        "recipientPhone": { "type": "string" },
+        "studentName": { "type": "string" },
+        "message": { "type": "string text" },
+        "senderId": { "type": "string" },
+        "status": { "type": "string", "enum": ["simulated", "sent", "failed"] },
+        "gateway": { "type": "string" },
+        "messageType": { "type": "string" },
+        "timestamp": { "type": "string" },
+        "isMockMode": { "type": "boolean" }
+      }
+    },
+    "curriculumUnits": {
+      "title": "Curriculum Units",
+      "description": "Curriculum units and lesson planning details",
+      "properties": {
+        "unitNumber": { "type": "number" },
+        "unitTitle": { "type": "string" },
+        "subjectName": { "type": "string" },
+        "className": { "type": "string" },
+        "teacherId": { "type": "string" },
+        "teacherName": { "type": "string" },
+        "targetStartDate": { "type": "string" },
+        "targetEndDate": { "type": "string" },
+        "status": { "type": "string" },
+        "description": { "type": "string" },
+        "teacherNotes": { "type": "string" },
+        "lastUpdated": { "type": "string" }
+      }
+    },
+    "teacherEvaluations": {
+      "title": "Teacher Evaluations",
+      "description": "Admin performance review logs for teachers",
+      "properties": {
+        "teacherId": { "type": "string" },
+        "teacherName": { "type": "string" },
+        "evaluatorName": { "type": "string" },
+        "evaluationDate": { "type": "string" },
+        "academicTerm": { "type": "string" },
+        "teachingScore": { "type": "number" },
+        "quranPunctualityScore": { "type": "number" },
+        "disciplineScore": { "type": "number" },
+        "studentEngagementScore": { "type": "number" },
+        "overallRating": { "type": "number" },
+        "strengths": { "type": "string" },
+        "areasForImprovement": { "type": "string" },
+        "adminComments": { "type": "string" },
+        "recommendation": { "type": "string" },
+        "createdAt": { "type": "string" }
+      }
+    }
+  },
+  "firestore": {
+    "sms_logs": {
+      "schema": "smsLogs",
+      "description": "Sent and simulated SMS logs"
+    },
+    "curriculumUnits": {
+      "schema": "curriculumUnits",
+      "description": "Curriculum lesson plans and topics"
+    },
+    "teacherEvaluations": {
+      "schema": "teacherEvaluations",
+      "description": "Performance review logs for teachers"
+    }
+  }
+}

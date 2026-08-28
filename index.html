@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="so">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>Machadka Tahdiibul Adfaal MIS - Nidaamka Dugsiga</title>
+    
+    <!-- PWA & Mobile Web App Meta Tags -->
+    <meta name="theme-color" content="#0e7a48" />
+    <meta name="application-name" content="Machadka Tahdiibul Adfaal MIS" />
+    <meta name="package-id" content="com.tahdiibuladfaal.mis" />
+    <meta name="keywords" content="Tahdiibul Adfaal, Machadka Tahdiibul Adfaal, MIS, Tahdiibul Adfaal MIS, Dugsiga Tahdiib, Hifzi, School MIS" />
+    <meta name="description" content="Nidaamka Maamulka Dugsiga ee Machadka Tahdiibul Adfaal (Tahdiibul Adfaal MIS) - Ardayda, Macallimiinta, Waalidiinta, Hifziga, Xaadiriska, Lacagaha, Imtixaannada iyo Isticmaalayaasha." />
+    
+    <!-- iOS / Safari / Android Mobile Capability & Screen Orientation -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Tahdiib MIS" />
+    <meta name="screen-orientation" content="portrait" />
+    <meta name="x5-orientation" content="portrait" />
+    <meta name="orientation" content="portrait" />
+    <meta name="browsermode" content="application" />
+    <meta name="layout-mode" content="fitscreen" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <link rel="apple-touch-icon" href="/tahdiib_logo.jpg" />
+
+    <!-- Strict Portrait Lock Script for Android Devices -->
+    <script>
+      (function() {
+        function enforcePortraitOrientation() {
+          try {
+            if (window.screen && window.screen.orientation && typeof window.screen.orientation.lock === 'function') {
+              window.screen.orientation.lock('portrait').catch(function() {
+                window.screen.orientation.lock('portrait-primary').catch(function() {});
+              });
+            } else if (typeof window.screen?.lockOrientation === 'function') {
+              window.screen.lockOrientation('portrait');
+            } else if (typeof window.screen?.mozLockOrientation === 'function') {
+              window.screen.mozLockOrientation('portrait');
+            } else if (typeof window.screen?.msLockOrientation === 'function') {
+              window.screen.msLockOrientation('portrait');
+            }
+          } catch (e) {}
+        }
+
+        enforcePortraitOrientation();
+        window.addEventListener('orientationchange', enforcePortraitOrientation);
+        window.addEventListener('resize', enforcePortraitOrientation);
+        document.addEventListener('DOMContentLoaded', enforcePortraitOrientation);
+        document.addEventListener('touchstart', enforcePortraitOrientation, { passive: true, once: true });
+        document.addEventListener('click', enforcePortraitOrientation, { passive: true, once: true });
+      })();
+    </script>
+    
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" type="image/jpeg" href="/tahdiib_logo.jpg" />
+    <link rel="shortcut icon" href="/tahdiib_logo.jpg" />
+  </head>
+  <body class="bg-slate-100 text-slate-900 antialiased selection:bg-[#0e7a48] selection:text-white">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Service Worker Registration & Automatic Version Sync -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        let refreshing = false;
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (!refreshing) {
+            refreshing = true;
+            window.location.reload();
+          }
+        });
+
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').then((reg) => {
+            reg.update();
+            if (reg.waiting) {
+              reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+            }
+            reg.onupdatefound = () => {
+              const installingWorker = reg.installing;
+              if (installingWorker) {
+                installingWorker.onstatechange = () => {
+                  if (installingWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                    installingWorker.postMessage({ type: 'SKIP_WAITING' });
+                  }
+                };
+              }
+            };
+          }).catch((err) => {
+            console.log('SW registration error:', err);
+          });
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,980 @@
+import {
+  Student,
+  Teacher,
+  Parent,
+  ClassRoom,
+  ClassGroup,
+  HifzRecord,
+  AttendanceRecord,
+  PaymentTransaction,
+  ExamRecord,
+  SchoolSettings,
+  User,
+  AuditLogEntry,
+  CurriculumUnit,
+  TeacherEvaluation,
+  RemoteRegistration,
+  RemoteClass,
+  RemoteLesson,
+  QuranProgress,
+  QuranAudioSubmission,
+  RemoteHomework,
+  RemoteHomeworkSubmission,
+  RemoteExam,
+  RemoteAttendanceRecord,
+  RemoteScheduleItem,
+  CloudFileItem,
+} from '../types';
+
+export const initialSchoolSettings: SchoolSettings = {
+  schoolName: "Tahdiibul Adfaal MIS",
+  schoolSubtitle: "Dugsiga Qur'aanka Kariimka & Waxbarashada Islaamka",
+  logoUrl: "/tahdiib_logo.jpg",
+  principalName: "Sheekh Cabdiraxmaan Maxamed Cali",
+  phone: "+252 61 555 1234 / +252 63 444 5678",
+  email: "info@tahdiibuladfaal.edu.so",
+  address: "Waaberi, Muqdisho / Hargeysa, Soomaaliya",
+  currency: "$",
+  academicYear: "2026 - 2027",
+  welcomeGreeting: "Ku Soo Dhowaw Tahdiibul Adfaal",
+  welcomeSubtext: "System-ka oo idil waxaad ka maamuli kartaa Ardayda, Xifdinta Qur'aanka, Macallimiinta, Lacagaha iyo Imtixaanaadka.",
+  subjects: [
+    { id: 'sub-1', name: "Qur'aanka (Hifz)", code: "QUR-101", maxScore: 100, passScore: 50, category: "Diini", description: "Hifdinta iyo saxidda akhrinta Qur'aanka kariimka ah" },
+    { id: 'sub-2', name: "Tajwiidka", code: "TAJ-102", maxScore: 100, passScore: 50, category: "Diini", description: "Axaaktaamka iyo qawaaniinta tajwiidka Qur'aanka" },
+    { id: 'sub-3', name: "Tarbiya & Akhlaaq", code: "TAR-103", maxScore: 100, passScore: 50, category: "Diini", description: "Aadaabta iyo edbinta ubadka mucallimiinta" },
+    { id: 'sub-4', name: "Luuqadda Carabiga", code: "ARB-104", maxScore: 100, passScore: 50, category: "Luuqad", description: "Qawaacidda, naxwaha iyo qoraalka Carabiga" },
+  ],
+  timeShifts: [
+    { id: 'shift-1', name: 'Waqtiga 1 (Subax Hore)', startTime: '07:00', endTime: '09:00', enabled: true, description: 'Casharka Hifz & Subaca Subaxdii' },
+    { id: 'shift-2', name: 'Waqtiga 2 (Barqo / Quraacda)', startTime: '10:00', endTime: '12:00', enabled: true, description: 'Sabqi, Murajaaco & Qaaciydada' },
+    { id: 'shift-3', name: 'Waqtiga 3 (Galabti / Casar)', startTime: '14:00', endTime: '16:00', enabled: true, description: 'Dareeriska, Tajwiidka & Akhlaaqda' },
+  ],
+  workingDays: ['Sabti', 'Axad', 'Isniin', 'Talaado', 'Arbaco', 'Khamiis'],
+  holidays: [],
+  teacherDevices: [
+    {
+      id: 'dev-1',
+      deviceName: 'Samsung Galaxy Tab A8 (Machadka)',
+      teacherId: 'usr-2',
+      teacherName: 'Macallin Yuusuf Axmed',
+      isAuthorized: true,
+      status: 'Online',
+      classModeActive: true,
+      currentClassId: 'cls-1',
+      currentClassName: 'Fasal A - Subax',
+      lastActiveTime: new Date().toISOString(),
+      appVersion: '2.4.0-pro',
+      ipAddress: '192.168.1.45',
+      restrictionLevel: 'ManagedKiosk',
+    },
+    {
+      id: 'dev-2',
+      deviceName: 'Galaxy A15 (Macallin Cabdi)',
+      teacherId: 'usr-6',
+      teacherName: 'Macallin Cabdi Maxamed',
+      isAuthorized: true,
+      status: 'Online',
+      classModeActive: false,
+      lastActiveTime: new Date().toISOString(),
+      appVersion: '2.4.0-pro',
+      ipAddress: '192.168.1.88',
+      restrictionLevel: 'PersonalWarning',
+    },
+  ],
+  emergencyUnlockLogs: [],
+};
+
+export const initialUsers: User[] = [
+  {
+    id: "usr-1",
+    name: "Agaasimaha Machadka (Admin)",
+    username: "admin",
+    password: "123",
+    email: "admin@tahdiib.edu",
+    role: "admin",
+    phone: "+252 61 555 1234",
+    status: "Active",
+  },
+  {
+    id: "usr-2",
+    name: "Macallin Yuusuf Axmed",
+    username: "yuusuf",
+    password: "123",
+    email: "yuusuf@tahdiib.edu",
+    role: "teacher",
+    phone: "+252 61 555 2233",
+    status: "Active",
+  },
+  {
+    id: "usr-3",
+    name: "Cabdi Maxamed Jaamac (Waalid)",
+    username: "parent",
+    password: "123",
+    email: "parent@tahdiib.edu",
+    role: "parent",
+    phone: "+252 61 555 3344",
+    status: "Active",
+  },
+  {
+    id: "usr-4",
+    name: "Cabdalla Maaliyadda",
+    username: "finance",
+    password: "123",
+    email: "finance@tahdiib.edu",
+    role: "finance",
+    phone: "+252 61 555 4455",
+    status: "Active",
+  },
+  {
+    id: "usr-5",
+    name: "Yahye Cabdi Maxamed (Arday)",
+    username: "arday1",
+    password: "123",
+    email: "arday1@tahdiib.edu",
+    role: "student",
+    phone: "+252 61 555 3344",
+    status: "Active",
+  },
+];
+
+// Default initial state is completely empty so user starts clean with NO demo data
+export const initialClasses: ClassRoom[] = [];
+export const initialStudents: Student[] = [];
+export const initialTeachers: Teacher[] = [];
+export const initialParents: Parent[] = [];
+export const initialHifzRecords: HifzRecord[] = [];
+export const initialAttendanceRecords: AttendanceRecord[] = [];
+export const initialPayments: PaymentTransaction[] = [];
+export const initialExams: ExamRecord[] = [];
+
+// Initial states for ERP Modules
+export const initialCustomers = [
+  {
+    id: 'cust-1',
+    name: 'Raage Maxamed Cali',
+    phone: '+252615551122',
+    type: 'Raage Customer' as const,
+    address: 'Hodan, Muqdisho',
+    balance: 45,
+    createdAt: new Date().toISOString().split('T')[0],
+    notes: 'Agaasimaha Dugsiga Hore',
+  },
+  {
+    id: 'cust-2',
+    name: 'Cumar Dhexe Cabdi',
+    phone: '+252615553344',
+    type: 'Dhexe Customer' as const,
+    address: 'Waaberi, Muqdisho',
+    balance: 0,
+    createdAt: new Date().toISOString().split('T')[0],
+    notes: 'Ganacsade Dhexe',
+  },
+  {
+    id: 'cust-3',
+    name: 'Aamin Cash Customer',
+    phone: '+252615559900',
+    type: 'Cash Customer' as const,
+    address: 'Xamar Weyne',
+    balance: 0,
+    createdAt: new Date().toISOString().split('T')[0],
+  },
+];
+
+export const initialProducts = [
+  {
+    id: 'prd-1',
+    code: 'PRD-101',
+    name: "Mus'haf Tajweed (Kabiir)",
+    companyName: 'Maktabadda Al-Adfaal',
+    category: "Qur'aan",
+    quantity: 40,
+    unitPrice: 8,
+    costPrice: 5,
+    salesCount: 15,
+    lastUpdated: new Date().toISOString().split('T')[0],
+  },
+  {
+    id: 'prd-2',
+    code: 'PRD-102',
+    name: 'Kitaabka Qaacidada Nuuraaniyah',
+    companyName: 'Maktabadda Al-Adfaal',
+    category: 'Tajwiid',
+    quantity: 85,
+    unitPrice: 2,
+    costPrice: 1,
+    salesCount: 50,
+    lastUpdated: new Date().toISOString().split('T')[0],
+  },
+  {
+    id: 'prd-3',
+    code: 'PRD-103',
+    name: 'Form-ka Lebiska Machadka',
+    companyName: 'Shirkadda Lebiska',
+    category: 'Uniform',
+    quantity: 25,
+    unitPrice: 15,
+    costPrice: 10,
+    salesCount: 30,
+    lastUpdated: new Date().toISOString().split('T')[0],
+  },
+];
+
+export const initialCompanies = [
+  {
+    id: 'comp-1',
+    companyName: 'Maktabadda Al-Anwaar',
+    contactPerson: 'Sheekh Yuusuf',
+    phone: '+252615000111',
+    address: 'Bakaara, Muqdisho',
+    productsSupplied: ["Mus'haf Tajweed", 'Qaacidada Nuuraaniyah', 'Kitaabbo Diini ah'],
+    balance: 120,
+    createdAt: new Date().toISOString().split('T')[0],
+  },
+  {
+    id: 'comp-2',
+    companyName: 'Shirkadda Lebiska & Stationery',
+    contactPerson: 'Cali Xasan',
+    phone: '+252615000222',
+    address: 'KPP, Muqdisho',
+    productsSupplied: ['Uniforms', 'Notebooks', 'Qalaman'],
+    balance: 0,
+    createdAt: new Date().toISOString().split('T')[0],
+  },
+];
+
+export const initialBooks = [
+  {
+    id: 'bk-1',
+    title: 'Axaaktaamta Tajwiidka Qur’aanka',
+    author: 'Macallin Yuusuf Axmed',
+    category: "Qur'aan & Tajwiid",
+    quantity: 20,
+    borrowedCount: 3,
+    availableCount: 17,
+  },
+  {
+    id: 'bk-2',
+    title: 'Tafsiirka Juz Amma & Tabaraka',
+    author: 'Sheekh Cabdiraxmaan',
+    category: 'Tafsiir',
+    quantity: 15,
+    borrowedCount: 2,
+    availableCount: 13,
+  },
+];
+
+export const initialAmaanoRecords = [
+  {
+    id: 'amn-1',
+    borrowerName: 'Yahye Cabdi Maxamed',
+    borrowerPhone: '+252615553344',
+    borrowerRole: 'Student' as const,
+    bookTitle: 'Axaaktaamta Tajwiidka Qur’aanka',
+    borrowDate: new Date().toISOString().split('T')[0],
+    returnDateExpected: new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0],
+    status: 'Borrowed' as const,
+  },
+];
+
+export const initialPatients = [
+  {
+    id: 'pat-1',
+    patientId: 'PAT-1001',
+    fullName: 'Axmed Maxamed Cumar',
+    phone: '+252615553344',
+    gender: 'Male' as const,
+    age: 11,
+    registrationDate: new Date().toISOString().split('T')[0],
+    notes: 'Arday qandho yar qabay',
+    medicalHistory: [
+      {
+        id: 'mhist-1',
+        date: new Date().toISOString().split('T')[0],
+        diagnosis: 'Qandho iyo Madax-xanuun',
+        treatment: 'Paracetamol 500mg, Nasasho',
+        doctorOrNurse: 'Nurse Hani',
+      },
+    ],
+  },
+];
+
+// Optional Demo / Sample Data for testing
+export const demoClasses: ClassRoom[] = [
+  {
+    id: "cls-1",
+    name: "Xifdin Sare (Hifz Kaamil)",
+    teacherId: "tch-1",
+    teacherName: "Macallin Yuusuf Axmed",
+    shift: "Subax",
+    capacity: 25,
+    totalStudents: 18,
+    roomNumber: "R-101",
+  },
+  {
+    id: "cls-2",
+    name: "Juz Tabaarak",
+    teacherId: "tch-2",
+    teacherName: "Macallin Ismaaciil Cumar",
+    shift: "Subax",
+    capacity: 30,
+    totalStudents: 24,
+    roomNumber: "R-102",
+  },
+  {
+    id: "cls-3",
+    name: "Juz Amma",
+    teacherId: "tch-3",
+    teacherName: "Macallin Xasan Cabdi",
+    shift: "Galab",
+    capacity: 25,
+    totalStudents: 20,
+    roomNumber: "R-103",
+  },
+];
+
+export const demoGroups: ClassGroup[] = [
+  { id: "grp-1", classId: "cls-1", className: "Xifdin Sare (Hifz Kaamil)", name: "Guruub A", teacherName: "Macallin Yuusuf Axmed", description: "Guruubka Axaaktaamta & Subaca Sare" },
+  { id: "grp-2", classId: "cls-1", className: "Xifdin Sare (Hifz Kaamil)", name: "Guruub B", teacherName: "Macallin Yuusuf Axmed", description: "Guruubka Dhexe ee Hifdiga" },
+  { id: "grp-3", classId: "cls-1", className: "Xifdin Sare (Hifz Kaamil)", name: "Guruub C", teacherName: "Macallin Yuusuf Axmed", description: "Guruubka Cusub" },
+];
+
+export const demoStudents: Student[] = [
+  {
+    id: "std-1",
+    studentId: "TA-2026-001",
+    fullName: "Yahye Cabdi Maxamed",
+    gender: "Male",
+    age: 12,
+    parentName: "Cabdi Maxamed Jaamac",
+    parentPhone: "+252 61 555 3344",
+    classId: "cls-1",
+    className: "Xifdin Sare (Hifz Kaamil)",
+    groupId: "grp-1",
+    groupName: "Guruub A",
+    shift: "Subax",
+    enrollmentDate: "2024-01-15",
+    status: "Active",
+    currentJuz: 22,
+    currentSurah: "Surah Yasin",
+    bookLevel: "Fasalka 5-aad",
+    feeMonthly: 15,
+    feeStatus: "Paid",
+  },
+  {
+    id: "std-2",
+    studentId: "TA-2026-002",
+    fullName: "Sumaya Axmed Isse",
+    gender: "Female",
+    age: 10,
+    parentName: "Axmed Isse Faarax",
+    parentPhone: "+252 61 666 4455",
+    classId: "cls-1",
+    className: "Xifdin Sare (Hifz Kaamil)",
+    groupId: "grp-2",
+    groupName: "Guruub B",
+    shift: "Subax",
+    enrollmentDate: "2024-03-10",
+    status: "Active",
+    currentJuz: 18,
+    currentSurah: "Surah Al-Kahf",
+    feeMonthly: 15,
+    feeStatus: "Paid",
+  },
+];
+
+export const demoTeachers: Teacher[] = [
+  {
+    id: "tch-1",
+    teacherId: "TCH-001",
+    fullName: "Macallin Yuusuf Axmed Cumar",
+    gender: "Male",
+    phone: "+252 61 555 2233",
+    email: "yuusuf@tahdiib.edu",
+    subjectSpecialty: "Hifzi Qur'aan & Qiraa'aat",
+    assignedClasses: ["Fasal A - Hifz Kaamil"],
+    salary: 250,
+    hireDate: "2022-08-01",
+    status: "Active",
+  },
+];
+
+export const demoParents: Parent[] = [
+  {
+    id: "prn-1",
+    fullName: "Cabdi Maxamed Jaamac",
+    phone: "+252 61 555 3344",
+    email: "cabdi@gmail.com",
+    address: "Hodan, Muqdisho",
+    childrenIds: ["std-1"],
+    occupation: "Ganasade",
+    totalPendingFees: 0,
+  },
+];
+
+export const demoHifzRecords: HifzRecord[] = [
+  {
+    id: "hfz-1",
+    studentId: "std-1",
+    studentName: "Yahye Cabdi Maxamed",
+    date: "2026-08-05",
+    subaxSurah: "Surah Yasin",
+    subaxAyahFrom: 1,
+    subaxAyahTo: 20,
+    sabqiJuz: 22,
+    manzilJuz: 21,
+    grade: "Mumtaaz",
+    teacherNote: "Dadaal fiican leh Masha Allah.",
+  },
+];
+
+export const demoAttendanceRecords: AttendanceRecord[] = [
+  {
+    id: "att-1",
+    studentId: "std-1",
+    studentName: "Yahye Cabdi Maxamed",
+    classId: "cls-1",
+    date: "2026-08-05",
+    status: "Present",
+  },
+];
+
+export const demoPayments: PaymentTransaction[] = [
+  {
+    id: "pay-1",
+    invoiceNumber: "INV-2026-0801",
+    studentId: "std-1",
+    studentName: "Yahye Cabdi Maxamed",
+    parentName: "Cabdi Maxamed Jaamac",
+    monthYear: "Ogoosto 2026",
+    amountPaid: 15,
+    paymentMethod: "EVC Plus",
+    transactionRef: "EVC98234120",
+    date: "2026-08-01",
+    status: "Paid",
+    processedBy: "Cabdalla Maaliyadda",
+  },
+];
+
+export const demoExams: ExamRecord[] = [
+  {
+    id: "exm-1",
+    studentId: "std-1",
+    studentName: "Yahye Cabdi Maxamed",
+    classId: "cls-1",
+    term: "Imtixaanka Bisha Luulyo",
+    quranScore: 98,
+    tajweedScore: 95,
+    tarbiyaScore: 92,
+    carabigaScore: 90,
+    totalScore: 375,
+    averagePercentage: 93.75,
+    rankInClass: 1,
+    remarks: "Arday aad u firfircoon oo leh akhlaaq iyo dadaal wanaagsan.",
+  },
+];
+
+export const initialAuditLogs: AuditLogEntry[] = [
+  {
+    id: "log-1",
+    timestamp: new Date(Date.now() - 1000 * 60 * 30).toISOString(), // 30 mins ago
+    user: "Maamule Yaasiin (Admin)",
+    userRole: "admin",
+    action: "Nidaamka Dugsiga La Cusboonaysiiyay",
+    category: "settings",
+    details: "Warbixinta iyo macluumaadka guud ee Dugsiga Tahdiibul Adfaal ayaa la cusboonaysiiyay.",
+  },
+  {
+    id: "log-2",
+    timestamp: new Date(Date.now() - 1000 * 60 * 120).toISOString(), // 2 hrs ago
+    user: "Maamule Yaasiin (Admin)",
+    userRole: "admin",
+    action: "Maado Cusub La Reebay/Dhayay",
+    category: "settings",
+    details: "Maadada Carabiga (ARB-104) ayaa lagu daray manhajka rasmiga ah ee dugsiga.",
+  },
+  {
+    id: "log-3",
+    timestamp: new Date(Date.now() - 1000 * 60 * 360).toISOString(), // 6 hrs ago
+    user: "Cabdalla Maaliyadda",
+    userRole: "finance",
+    action: "Lacag-bixin La Diiwaangeliyay",
+    category: "payments",
+    details: "Ardayda Yahye Cabdi Maxamed waxaa lagu shubay $15 (Bisha Ogoosto 2026 via EVC Plus).",
+  },
+  {
+    id: "log-4",
+    timestamp: new Date(Date.now() - 1000 * 60 * 1440).toISOString(), // 1 day ago
+    user: "Sheekh Cabdiraxmaan",
+    userRole: "teacher",
+    action: "Xaadiriska Ardayda La Keydiyay",
+    category: "attendance",
+    details: "Xaadiriska Fasal Alif (Subax Hore) ee taariikhda 2026-08-11 ayaa la keydiyay.",
+  },
+  {
+    id: "log-5",
+    timestamp: new Date(Date.now() - 1000 * 60 * 2880).toISOString(), // 2 days ago
+    user: "Maamule Yaasiin (Admin)",
+    userRole: "admin",
+    action: "Arday Cusub La Qoray",
+    category: "students",
+    details: "Ardayda Yahye Cabdi Maxamed (STD-001) ayaa loo qoray Fasalka Alif.",
+  },
+];
+
+export const initialCurriculumUnits: CurriculumUnit[] = [
+  {
+    id: "curr-101",
+    unitNumber: 1,
+    unitTitle: "Cutubka 1-aad: Axaaktaamta Nuun As-Saakinah & Tanwiinka",
+    subjectName: "Tajwiidka",
+    className: "Fasal A - Subax",
+    teacherId: "tch-1",
+    teacherName: "Macallin Yuusuf Axmed",
+    targetStartDate: "2026-08-01",
+    targetEndDate: "2026-08-25",
+    status: "In Progress",
+    description: "Kalfadhiga aasaasiga ah ee lagu baranayo 4-ta xaaladood ee Nunta Saakinka ah iyo Tanwiinka.",
+    teacherNotes: "Ardaydu waxay si fiican u fahmeen Ixfaada, laakiin Idgaamka Bi-ghunnah waxay u baahan yihiin tababar dheeraad ah.",
+    lastUpdated: "2026-08-12",
+    topics: [
+      { id: "top-101", title: "Qeexidda Nunta Saakinka ah iyo Tanwiinka", isCompleted: true, completedAt: "2026-08-03" },
+      { id: "top-102", title: "Ixfaada (الإخفاء) iyo Harfiyaadkeeda 15-ka ah", isCompleted: true, completedAt: "2026-08-07" },
+      { id: "top-103", title: "Idgaamka Bi-Ghunnah (يرملون) iyo Bi-Ghayri Ghunnah", isCompleted: true, completedAt: "2026-08-10" },
+      { id: "top-104", title: "Iqlaabka (الإقلاب) iyo Izhaarka Halqiga ah (الإظهار)", isCompleted: false },
+    ],
+  },
+  {
+    id: "curr-102",
+    unitNumber: 2,
+    unitTitle: "Cutubka 2-aad: Xarfaha iyo Xarakadka (Fatxa, Kasra, Damma)",
+    subjectName: "Qaaciydada",
+    className: "Fasalka 1-aad",
+    teacherId: "tch-1",
+    teacherName: "Macallin Yuusuf Axmed",
+    targetStartDate: "2026-08-05",
+    targetEndDate: "2026-08-30",
+    status: "In Progress",
+    description: "Barashada xarfaha mufradka ah iyo xarakadka aasaasiga ah ee Mu'allim Al-Qiraa'ah.",
+    teacherNotes: "Fasalku wuxuu ku jiro xarakada Kasrada iyo Fatxada.",
+    lastUpdated: "2026-08-13",
+    topics: [
+      { id: "top-201", title: "Xarfaha Mufradaka ah (أ - ي) dhawaaqooda saxda ah", isCompleted: true, completedAt: "2026-08-06" },
+      { id: "top-202", title: "Fatxada (الفتحة) iyo akhriska kalamadaha 3-da xaraf ah", isCompleted: true, completedAt: "2026-08-09" },
+      { id: "top-203", title: "Kasrada (الكسرة) iyo isku xirka dhawaaqyada", isCompleted: false },
+      { id: "top-204", title: "Damada (الضمة) iyo Sufeenta Akhriska", isCompleted: false },
+    ],
+  },
+  {
+    id: "curr-103",
+    unitNumber: 1,
+    unitTitle: "Cutubka 1-aad: Aadaabta Ardayga Qur'aanka iyo Xushmeynta Waalidiinta",
+    subjectName: "Tarbiya & Akhlaaq",
+    className: "Fasal Hifz Kaamil",
+    teacherId: "tch-2",
+    teacherName: "Sheekh Maxamed Cumar",
+    targetStartDate: "2026-07-15",
+    targetEndDate: "2026-08-05",
+    status: "Completed",
+    description: "Darsi muhiim ah oo ku saabsan akhlaaqda, ilaalinta xifdiga Qur'aanka iyo adkeinta jacaylka diinta.",
+    teacherNotes: "Darsigii waa la dhameeyay, dhammaan ardayda waa loo imtixaanay.",
+    lastUpdated: "2026-08-05",
+    topics: [
+      { id: "top-301", title: "Ikhlaaska Iyo Niyadda Nadiifka Ah ee barashada Qur'aanka", isCompleted: true, completedAt: "2026-07-20" },
+      { id: "top-302", title: "Edbinta Iyo Xushmeynta Waalidiinta & Macallinka", isCompleted: true, completedAt: "2026-07-27" },
+      { id: "top-303", title: "Xaq-soorka Walaalaha iyo Nadiifinta Qalbiga", isCompleted: true, completedAt: "2026-08-04" },
+    ],
+  },
+  {
+    id: "curr-104",
+    unitNumber: 3,
+    unitTitle: "Cutubka 3-aad: Naxwaha – Al-Kalimah wa Anwaacuhaa (Isim, Fecl, Xaraf)",
+    subjectName: "Luuqadda Carabiga",
+    className: "Fasal B - Galab",
+    teacherId: "tch-3",
+    teacherName: "Macallin Ibraahim Cali",
+    targetStartDate: "2026-08-10",
+    targetEndDate: "2026-09-05",
+    status: "In Progress",
+    description: "Kalfadhiga lagu kala saarayo Isimka, Fecliga iyo Xarfaanta Luuqadda Carabiga.",
+    teacherNotes: "Cutubkani wuxuu aasaas u yahay fahamka luuqadda.",
+    lastUpdated: "2026-08-11",
+    topics: [
+      { id: "top-401", title: "Qeexidda Isimka (الاسم) iyo calaamadihiisa", isCompleted: true, completedAt: "2026-08-11" },
+      { id: "top-402", title: "Qeexidda Fecliga (الفعل) - Maadi, Mudhaari, Amri", isCompleted: false },
+      { id: "top-403", title: "Xarafta (الحرف) iyo shaqadooda jimladaha", isCompleted: false },
+    ],
+  },
+];
+
+export const initialTeacherEvaluations: TeacherEvaluation[] = [
+  {
+    id: "eval-101",
+    teacherId: "tch-1",
+    teacherName: "Macallin Yuusuf Axmed",
+    evaluatorName: "Agaasimaha Machadka (Admin)",
+    evaluationDate: "2026-08-10",
+    academicTerm: "Kalfadhiga Bisha Ogoosto 2026",
+    teachingScore: 5,
+    quranPunctualityScore: 5,
+    disciplineScore: 4,
+    studentEngagementScore: 5,
+    overallRating: 4.8,
+    strengths: "Dhigista Tajwiidka iyo xifdiyeinta ardayda si qoto dheer; la socodka habboon ee xifdiga maalinlaha ah.",
+    areasForImprovement: "Xaqiijinta in ardayda xishoodka badan ay helaan dhiirigelin dheeraad ah kalfadhiga galabnimo.",
+    adminComments: "Macallin muqaddas ah oo karti sare u leh maamulka fasalka iyo taya-dhowrka akhriska Qur'aanka.",
+    recommendation: "Excellent",
+    createdAt: "2026-08-10T10:00:00.000Z",
+  },
+  {
+    id: "eval-102",
+    teacherId: "tch-2",
+    teacherName: "Sheekh Maxamed Cumar",
+    evaluatorName: "Agaasimaha Machadka (Admin)",
+    evaluationDate: "2026-08-05",
+    academicTerm: "Kalfadhiga Bisha Ogoosto 2026",
+    teachingScore: 4,
+    quranPunctualityScore: 5,
+    disciplineScore: 5,
+    studentEngagementScore: 4,
+    overallRating: 4.5,
+    strengths: "Anshaaxa fasalka, ilaalinta waqtiga saacadda galaangalka iyo edbinta ardayda Hifz Kaamilka.",
+    areasForImprovement: "Kordhinta isticmaalka qorshe-hoosaadka manhajka iyo diiwaangelinta xusuus-qorka ardayda u baahan caawinta.",
+    adminComments: "Aad ayaa loogu qancay habkiisa edbinta iyo hugaaminta ardayda Hifz Kaamilka.",
+    recommendation: "Promote",
+    createdAt: "2026-08-05T09:30:00.000Z",
+  },
+];
+
+// =========================================================================
+// WAXBARASHADA FOG (REMOTE LEARNING) INITIAL MOCK DATASETS
+// =========================================================================
+
+export const initialRemoteRegistrations: RemoteRegistration[] = [
+  {
+    id: "reg-rem-001",
+    fullName: "Khadra Ismaaciil Xasan",
+    age: 12,
+    dob: "2014-05-12",
+    cityCountry: "Muqdisho, Soomaaliya",
+    phone: "+252 61 888 7766",
+    email: "khadra.ismail@gmail.com",
+    gradeLevel: "Fasalka 5-aad",
+    quranLevel: "15 Juz",
+    currentSurah: "Surat Al-Kahf",
+    currentPage: 293,
+    tajweedLevel: "Dhexe (Axaaktaamta Nuun)",
+    parentName: "Ismaaciil Xasan Cabdi",
+    parentPhone: "+252 61 888 7766",
+    parentRelation: "Aabe",
+    isParentRegisteringChild: true,
+    status: "Pending",
+    submittedAt: "2026-08-26T14:30:00.000Z",
+  },
+  {
+    id: "reg-rem-002",
+    fullName: "Hamza Cabdillaahi Nasiir",
+    age: 14,
+    dob: "2012-09-20",
+    cityCountry: "Nairobi, Kenya",
+    phone: "+254 712 345 678",
+    email: "hamza.nairobi@gmail.com",
+    gradeLevel: "Fasalka 7-aad",
+    quranLevel: "28 Juz",
+    currentSurah: "Surat Al-Baqarah",
+    currentPage: 18,
+    tajweedLevel: "Mutaqadim (Qawaacidda Tajwiidka)",
+    parentName: "Cabdillaahi Nasiir Aadan",
+    parentPhone: "+254 712 345 678",
+    parentRelation: "Aabe",
+    status: "Approved",
+    submittedAt: "2026-08-20T09:15:00.000Z",
+    reviewedBy: "Agaasimaha Machadka (Admin)",
+    reviewedAt: "2026-08-21T10:00:00.000Z",
+    assignedClassId: "rcls-101",
+    assignedTeacherId: "tch-1",
+  },
+];
+
+export const initialRemoteClasses: RemoteClass[] = [
+  {
+    id: "rcls-101",
+    name: "Fasalka Fog - Hifz & Tajwiid (Group A)",
+    gradeLevel: "Heerka 1-aad ee Fog",
+    teacherId: "tch-1",
+    teacherName: "Macallin Yuusuf Axmed",
+    totalStudents: 8,
+    scheduleDays: ["Sabti", "Isniin", "Talaado", "Arbaco"],
+    scheduleTime: "08:00 AM - 10:00 AM EAT",
+  },
+  {
+    id: "rcls-102",
+    name: "Fasalka Fog - Qaaciydada & Tarbiyada (Group B)",
+    gradeLevel: "Heerka 2-aad ee Fog",
+    teacherId: "tch-2",
+    teacherName: "Sheekh Maxamed Cumar",
+    totalStudents: 12,
+    scheduleDays: ["Axad", "Talaado", "Khamiis"],
+    scheduleTime: "04:00 PM - 06:00 PM EAT",
+  },
+];
+
+export const initialRemoteLessons: RemoteLesson[] = [
+  {
+    id: "rles-101",
+    title: "Casharka Maanta: Surat Al-Kahf (Aayadaha 1 - 10) & Axaaktaamka Idghaamka",
+    subjectName: "Tajwiidka & Hifz",
+    classId: "rcls-101",
+    className: "Fasalka Fog - Hifz & Tajwiid (Group A)",
+    teacherId: "tch-1",
+    teacherName: "Macallin Yuusuf Axmed",
+    date: "2026-08-27",
+    time: "08:30 AM",
+    durationMinutes: 45,
+    mediaType: "video",
+    mediaUrl: "https://www.youtube.com/embed/sample_quran_lesson",
+    description: "Sharaxaad kooban oo ku saabsan Idghaamka meelaha uu ka dhaco, akhriska saxda ah ee 10-ka aayadood ee u horreeya Surat Al-Kahf.",
+    readingContent: "A’oodhu billaahi minash-shaytaanir-rajiim. Bismillaahir-Rahmaanir-Rahiim. Al-hamdu lillaahilladhee anzala 'alaa 'abdihil-kitaaba wa lam yaj'al lahoo 'iwajaa...",
+    createdAt: "2026-08-27T07:00:00.000Z",
+  },
+  {
+    id: "rles-102",
+    title: "Cutubka 2-aad: Aadaabta Quraan-akhriska iyo Daahirnimada",
+    subjectName: "Tarbiya & Akhlaaq",
+    classId: "rcls-102",
+    className: "Fasalka Fog - Qaaciydada & Tarbiyada (Group B)",
+    teacherId: "tch-2",
+    teacherName: "Sheekh Maxamed Cumar",
+    date: "2026-08-26",
+    time: "04:15 PM",
+    durationMinutes: 30,
+    mediaType: "pdf",
+    mediaUrl: "/docs/sample_tarbiya_lesson.pdf",
+    description: "Waddada ugu habboon ee loo maro xushmeynta Mus'haf-ka kariimka ah iyo shuruudaha qofka akhrinaya.",
+    createdAt: "2026-08-26T14:00:00.000Z",
+  },
+];
+
+export const initialQuranProgress: QuranProgress[] = [
+  {
+    id: "qprog-101",
+    studentId: "std-rem-001",
+    studentName: "Hamza Cabdillaahi Nasiir",
+    currentSurah: "Surat Al-Baqarah",
+    currentAyahFrom: 1,
+    currentAyahTo: 25,
+    currentPage: 18,
+    newHifzSurah: "Surat Al-Kahf",
+    murajaahSurah: "Surat Yasin & Surat Al-Mulk",
+    tajweedLesson: "Axaaktaamta Idghaamka iyo Izhaar-ka",
+    lastUpdated: "2026-08-27T08:00:00.000Z",
+  },
+];
+
+export const initialQuranAudioSubmissions: QuranAudioSubmission[] = [
+  {
+    id: "qaud-101",
+    studentId: "std-rem-001",
+    studentName: "Hamza Cabdillaahi Nasiir",
+    teacherId: "tch-1",
+    teacherName: "Macallin Yuusuf Axmed",
+    surah: "Surat Al-Kahf",
+    ayahs: "1 - 10",
+    date: "2026-08-27",
+    time: "09:10 AM",
+    audioBase64OrUrl: "demo_audio_sample",
+    audioDuration: "02:15",
+    rating: 5,
+    teacherComment: "Maa sha' Allah! Akhrisku waa mumtaaz, Idghaamkiina si sax ah ayaad u dhawaaqday. Sii wad horumarka!",
+    status: "Reviewed",
+    reviewedAt: "2026-08-27T10:00:00.000Z",
+    reviewedBy: "Macallin Yuusuf Axmed",
+  },
+];
+
+export const initialRemoteHomework: RemoteHomework[] = [
+  {
+    id: "rhmw-101",
+    title: "Shaqo-guri: Qor 5 tusaale oo Idghaam Bighunnah ah",
+    subjectName: "Tajwiidka",
+    classId: "rcls-101",
+    className: "Fasalka Fog - Hifz & Tajwiid (Group A)",
+    teacherId: "tch-1",
+    teacherName: "Macallin Yuusuf Axmed",
+    instructions: "Qor ama cod ku soo duub 5 tusaale oo Idghaam Bighunnah ah oo aad ka soo saartay Juz 30.",
+    deadline: "2026-08-28T23:59:00.000Z",
+    createdAt: "2026-08-27T08:00:00.000Z",
+  },
+];
+
+export const initialRemoteHomeworkSubmissions: RemoteHomeworkSubmission[] = [
+  {
+    id: "rhsub-101",
+    homeworkId: "rhmw-101",
+    studentId: "std-rem-001",
+    studentName: "Hamza Cabdillaahi Nasiir",
+    submittedAt: "2026-08-27T11:20:00.000Z",
+    submissionText: "1. miiw-waraa'ihim\n2. may-yaqaalu\n3. miiw-waalin\n4. may-yashaao\n5. miiw-waaq",
+    status: "Reviewed",
+    gradeScore: 98,
+    teacherFeedback: "Jazaakallaahu khayran, jawaabahaagu waa 100% sax!",
+    reviewedAt: "2026-08-27T12:00:00.000Z",
+  },
+];
+
+export const initialRemoteExams: RemoteExam[] = [
+  {
+    id: "rexam-101",
+    title: "Imtixaanka Bisha: Tajwiidka & Surat Al-Kahf",
+    subjectName: "Tajwiidka",
+    classId: "rcls-101",
+    className: "Fasalka Fog - Hifz & Tajwiid (Group A)",
+    teacherId: "tch-1",
+    teacherName: "Macallin Yuusuf Axmed",
+    durationMinutes: 30,
+    scheduledDate: "2026-08-30",
+    startTime: "09:00 AM",
+    deadline: "2026-08-30T12:00:00.000Z",
+    totalMarks: 100,
+    createdAt: "2026-08-25T10:00:00.000Z",
+    questions: [
+      {
+        id: "q-1",
+        question: "Barta xarafka (ي) marka uu ka dib yimaado Nuun Saakina waa nuuca hebel ee Tajwiidka?",
+        type: "mcq",
+        options: ["Idghaam Bighunnah", "Izhaar Halqi", "Iqlaab", "Ikhfaa Shafawi"],
+        correctAnswer: "Idghaam Bighunnah",
+        marks: 25,
+      },
+      {
+        id: "q-2",
+        question: "Immisa xaraf ayaa loo qeybiyaa Xarfaanta Izhaar-ka Halqiga ah?",
+        type: "mcq",
+        options: ["6 Xaraf", "4 Xaraf", "15 Xaraf", "2 Xaraf"],
+        correctAnswer: "6 Xaraf",
+        marks: 25,
+      },
+      {
+        id: "q-3",
+        question: "Sharrax macnaha 'Izhaar' marka laga hadlayo cilmiga Tajwiidka.",
+        type: "text",
+        marks: 50,
+      },
+    ],
+  },
+];
+
+export const initialRemoteAttendance: RemoteAttendanceRecord[] = [
+  {
+    id: "ratt-101",
+    studentId: "std-rem-001",
+    studentName: "Hamza Cabdillaahi Nasiir",
+    classId: "rcls-101",
+    lessonId: "rles-101",
+    lessonTitle: "Casharka Maanta: Surat Al-Kahf",
+    date: "2026-08-27",
+    startTime: "08:30 AM",
+    endTime: "09:15 AM",
+    status: "Present",
+    loggedAt: "2026-08-27T08:31:00.000Z",
+  },
+];
+
+export const initialRemoteSchedules: RemoteScheduleItem[] = [
+  {
+    id: "sch-1",
+    timeSlot: "Subax",
+    timeRange: "08:00 AM - 09:30 AM EAT",
+    subject: "Qur'aanka & Tajwiidka",
+    teacherName: "Macallin Yuusuf Axmed",
+    dayName: "Sabti",
+  },
+  {
+    id: "sch-2",
+    timeSlot: "Duhur",
+    timeRange: "10:30 AM - 12:00 PM EAT",
+    subject: "Axaaktaamka Tajwiidka",
+    teacherName: "Macallin Yuusuf Axmed",
+    dayName: "Isniin",
+  },
+  {
+    id: "sch-3",
+    timeSlot: "Fiid",
+    timeRange: "04:00 PM - 05:30 PM EAT",
+    subject: "Tarbiya & Akhlaaq",
+    teacherName: "Sheekh Maxamed Cumar",
+    dayName: "Talaado",
+  },
+];
+
+export const initialCloudFiles: CloudFileItem[] = [
+  {
+    id: "file-pdf-001",
+    filename: "Manhajka_Tajwiidka_Fasalka_1.pdf",
+    originalName: "Manhajka Tajwiidka & Axaaktaamka - Fasalka 1-aad.pdf",
+    mimeType: "application/pdf",
+    fileSize: 4850000, // ~4.85 MB
+    category: "pdf",
+    fileUrl: "/api/storage/files/file-pdf-001/view",
+    storageKey: "b2-bucket/docs/Manhajka_Tajwiidka_Fasalka_1.pdf",
+    isPrivate: false,
+    uploadedByUserId: "usr-admin-1",
+    uploadedByName: "Sheekh Cabdiraxmaan Maxamed Cali",
+    uploadedByRole: "admin",
+    classId: "rcls-101",
+    className: "Fasalka Fog - Group A",
+    description: "Kintaabka rasmiga ah ee Tajwiidka iyo Axaaktaamka Aasaasiga ah ee Machadka Tahdiibul-Adfaal.",
+    createdAt: "2026-08-15T09:00:00.000Z",
+  },
+  {
+    id: "file-doc-002",
+    filename: "Jadwalka_Imtixaanaadka_Nusufta_Sannadka.docx",
+    originalName: "Jadwalka Imtixaanaadka Nusufta Sannadka 2026.docx",
+    mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    fileSize: 1250000, // ~1.25 MB
+    category: "document",
+    fileUrl: "/api/storage/files/file-doc-002/view",
+    storageKey: "b2-bucket/docs/Jadwalka_Imtixaanaadka_2026.docx",
+    isPrivate: false,
+    uploadedByUserId: "usr-admin-1",
+    uploadedByName: "Sheekh Cabdiraxmaan Maxamed Cali",
+    uploadedByRole: "admin",
+    description: "Shaxda iyo waqtiyada imtixaanaadka nusufta sannadka ee dhammaan fasallada.",
+    createdAt: "2026-08-20T10:30:00.000Z",
+  },
+  {
+    id: "file-img-003",
+    filename: "Shahaadada_Xifdinta_Quraanka_Sample.png",
+    originalName: "Shahaadada Xifdinta Qur'aanka (Sample Certificate).png",
+    mimeType: "image/png",
+    fileSize: 2100000, // ~2.1 MB
+    category: "image",
+    fileUrl: "/tahdiib_logo.jpg",
+    storageKey: "b2-bucket/images/Shahaadada_Sample.png",
+    isPrivate: false,
+    uploadedByUserId: "usr-admin-1",
+    uploadedByName: "Sheekh Cabdiraxmaan Maxamed Cali",
+    uploadedByRole: "admin",
+    description: "Saynshiga shahaadada xifdinta ee la siiyo ardayda dhameaysa 30-ka Juz.",
+    createdAt: "2026-08-22T14:15:00.000Z",
+  },
+  {
+    id: "file-pdf-004",
+    filename: "Warbixinta_Natiijooyinka_Ardayda_Term1.pdf",
+    originalName: "Warbixinta Natiijooyinka Ardayda Term 1.pdf",
+    mimeType: "application/pdf",
+    fileSize: 3400000, // ~3.4 MB
+    category: "report",
+    fileUrl: "/api/storage/files/file-pdf-004/view",
+    storageKey: "b2-bucket/reports/Warbixinta_Term1.pdf",
+    isPrivate: true,
+    uploadedByUserId: "usr-teacher-1",
+    uploadedByName: "Macallin Yuusuf Axmed",
+    uploadedByRole: "teacher",
+    classId: "rcls-101",
+    className: "Fasalka Fog - Group A",
+    description: "Warbixinta rasmiga ah ee natiijooyinka iyo xifdiga ardayda ee Sannad-duqeedka.",
+    createdAt: "2026-08-25T11:00:00.000Z",
+  },
+];
+
+

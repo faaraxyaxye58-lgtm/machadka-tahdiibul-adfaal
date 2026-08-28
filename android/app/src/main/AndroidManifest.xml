@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.tahdiibuladfaal.app">
+
+    <!-- Permissions required for Dedicated Kiosk Mode & Device Policy Control -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.REORDER_TASKS" />
+    <uses-permission android:name="android.permission.MANAGE_DEVICE_ADMINS" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.SET_TIME_ZONE" />
+
+    <application
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="Tahdiibul Adfaal Kiosk"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat.NoActionBar">
+
+        <!-- Main Launcher Activity -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- Device Admin Receiver for Device Owner Privileges -->
+        <receiver
+            android:name=".TahdiibDeviceAdminReceiver"
+            android:description="@string/device_admin_description"
+            android:label="@string/device_admin_label"
+            android:permission="android.permission.BIND_DEVICE_ADMIN"
+            android:exported="true">
+            <meta-data
+                android:name="android.app.device_admin"
+                android:resource="@xml/device_admin_receiver" />
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+                <action android:name="android.app.action.PROFILE_PROVISIONING_COMPLETE" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Kiosk Management Background Service -->
+        <service
+            android:name=".KioskService"
+            android:enabled="true"
+            android:exported="false" />
+
+    </application>
+
+</manifest>

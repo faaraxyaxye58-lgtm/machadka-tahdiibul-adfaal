@@ -1,0 +1,39 @@
+{
+  "short_name": "Tahdiib MIS",
+  "name": "Machadka Tahdiibul Adfaal - Tahdiibul Adfaal MIS",
+  "description": "Nidaamka Maamulka Dugsiga ee Machadka Tahdiibul Adfaal (Tahdiibul Adfaal MIS) - Hifziga, Xaadiriska, Lacagaha, Imtixaannada iyo Isticmaalayaasha.",
+  "id": "com.tahdiibuladfaal.mis",
+  "package_name": "com.tahdiibuladfaal.mis",
+  "icons": [
+    {
+      "src": "/tahdiib_logo.jpg",
+      "type": "image/jpeg",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/tahdiib_logo.jpg",
+      "type": "image/jpeg",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/logo.jpg",
+      "type": "image/jpeg",
+      "sizes": "512x512",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "192x192 512x512",
+      "purpose": "any"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#0e7a48",
+  "theme_color": "#0e7a48",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui", "fullscreen"],
+  "orientation": "portrait"
+}
